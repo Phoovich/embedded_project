@@ -10,16 +10,18 @@
 
 ```mermaid
 graph TD
-  subgraph SN["Sensor/Actuator Node (NodeMCU/ESP8266)"]
+  %% Sensor/Actuator Node
+  subgraph SN["Sensor/Actuator Node<br>(NodeMCU / ESP8266)"]
     S1["KY-015 Temp & Humidity"]
     S2["KY-018 Light"]
     S3["KY-026 Flame"]
     S4["KY-037 Microphone"]
-    IN1["KY-040 Rotary Encoder"]
-    A1["KY-019 Relay → Fan/Filter"]
+    IN1["KY-040 Rotary Encoder<br>(User Input)"]
+    A1["KY-019 Relay → Fan / Filter"]
     A2["KY-006 Buzzer (Alert)"]
   end
 
+  %% Connections inside the node
   S1 --> SN
   S2 --> SN
   S3 --> SN
@@ -28,10 +30,12 @@ graph TD
   SN --> A1
   SN --> A2
 
-  SN -->|Wi-Fi / MQTT publish| C["NETPIE Cloud<br>MQTT Broker & Feeds"]
-  C -->|Realtime feed| UI["Dashboard (Web/Mobile)<br>Gauges • Graphs • Alerts"]
-  UI -->|MQTT subscribe| C
-  C -->|Control commands| SN
+  %% External communication
+  SN -->|"Wi-Fi / MQTT Publish"| C["NETPIE Cloud<br>MQTT Broker & Feeds"]
+  C -->|"Realtime Feed"| UI["Dashboard<br>(Web / Mobile)<br>Gauges • Graphs • Alerts"]
+  UI -->|"MQTT Subscribe"| C
+  C -->|"Control Commands"| SN
+
 ```
 
 
