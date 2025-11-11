@@ -1,4 +1,4 @@
-## 🌎 **Smart Air Quality & Environment Monitor System**
+<img width="1298" height="521" alt="image" src="https://github.com/user-attachments/assets/29b4674e-bbe1-4fa0-9f5e-1232178168ae" />## 🌎 **Smart Air Quality & Environment Monitor System**
 
 ### 🎯 **Objective**
 
@@ -9,15 +9,15 @@
 ## 🧭 **System Diagram**
 
 ```mermaid
-flowchart TD
-  subgraph SN["Sensor/Actuator Node - NodeMCU/ESP8266"]
+graph TD
+  subgraph SN["Sensor/Actuator Node (NodeMCU/ESP8266)"]
     S1["KY-015 Temp & Humidity"]
     S2["KY-018 Light"]
     S3["KY-026 Flame"]
     S4["KY-037 Microphone"]
-    IN1["KY-040 Rotary Encoder (User Input)"]
-    A1[["KY-019 Relay -> Fan/Filter"]]
-    A2[["KY-006 Buzzer (Alert)"]]
+    IN1["KY-040 Rotary Encoder"]
+    A1["KY-019 Relay → Fan/Filter"]
+    A2["KY-006 Buzzer (Alert)"]
   end
 
   S1 --> SN
@@ -28,8 +28,8 @@ flowchart TD
   SN --> A1
   SN --> A2
 
-  SN -->|Wi-Fi / MQTT publish| C[(NETPIE Cloud\nMQTT Broker & Feeds)]
-  C -->|Realtime feed| UI["Dashboard (Web/Mobile)\nGauges • Graphs • Alerts"]
+  SN -->|Wi-Fi / MQTT publish| C["NETPIE Cloud<br>MQTT Broker & Feeds"]
+  C -->|Realtime feed| UI["Dashboard (Web/Mobile)<br>Gauges • Graphs • Alerts"]
   UI -->|MQTT subscribe| C
   C -->|Control commands| SN
 ```
