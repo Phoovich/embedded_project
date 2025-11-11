@@ -1,4 +1,4 @@
-<img width="1298" height="521" alt="image" src="https://github.com/user-attachments/assets/29b4674e-bbe1-4fa0-9f5e-1232178168ae" />## 🌎 **Smart Air Quality & Environment Monitor System**
+## 🌎 **Smart Air Quality & Environment Monitor System**
 
 ### 🎯 **Objective**
 
