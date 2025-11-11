@@ -10,56 +10,58 @@
 
 ```mermaid
 flowchart TD
-    subgraph SN[Sensor/Actuator Node - NodeMCU/ESP8266]
-      S1[KY-015 Temp & Humidity]
-      S2[KY-018 Light]
-      S3[KY-026 Flame]
-      S4[KY-037 Microphone (Noise)]
-      IN1[KY-040 Rotary Encoder (User Input)]
-      A1[[KY-019 Relay → Fan/Air Filter]]
-      A2[[KY-006 Buzzer (Alert)]]
-    end
+  subgraph SN["Sensor/Actuator Node - NodeMCU/ESP8266"]
+    S1["KY-015 Temp & Humidity"]
+    S2["KY-018 Light"]
+    S3["KY-026 Flame"]
+    S4["KY-037 Microphone"]
+    IN1["KY-040 Rotary Encoder (User Input)"]
+    A1[["KY-019 Relay -> Fan/Filter"]]
+    A2[["KY-006 Buzzer (Alert)"]]
+  end
 
-    SN -->|Wi-Fi / MQTT (publish)| C[(NETPIE Cloud\nMQTT Broker, Feeds)]
-    C -->|Realtime feed| UI[Dashboard (Web/Mobile)\nGauges • Graphs • Alerts]
-    UI -->|MQTT (subscribe/commands)| C
-    C -->|MQTT (subscribe/control)| SN
+  S1 --> SN
+  S2 --> SN
+  S3 --> SN
+  S4 --> SN
+  IN1 --> SN
+  SN --> A1
+  SN --> A2
 
-    S1 --> SN
-    S2 --> SN
-    S3 --> SN
-    S4 --> SN
-    IN1 --> SN
-    SN --> A1
-    SN --> A2
+  SN -->|Wi-Fi / MQTT publish| C[(NETPIE Cloud\nMQTT Broker & Feeds)]
+  C -->|Realtime feed| UI["Dashboard (Web/Mobile)\nGauges • Graphs • Alerts"]
+  UI -->|MQTT subscribe| C
+  C -->|Control commands| SN
 ```
 
-```mermaid
-flowchart TD
-    START([Start]) --> INIT[Boot NodeMCU\nInit Wi-Fi, MQTT, Sensors]
-    INIT --> READ[Read sensors:\nTemp, Humidity, Light, Flame, Noise, Encoder]
-    READ --> THR{Threshold exceeded?}
-    THR -->|Yes (any)| ACT[Activate alerts:\nRelay→Fan ON, Buzzer ON]
-    THR -->|No| NOP[Keep current outputs]
-
-    ACT --> PUB
-    NOP --> PUB
-
-    PUB[Publish sensor & status\nvia MQTT → NETPIE feeds] --> UI[Dashboard updates\ncharts/gauges/alerts]
-
-    UI --> CMD{Incoming command?\n(e.g., Fan ON/OFF)}
-    CMD -->|Yes| APPLY[Apply command to Relay/Buzzer]
-    CMD -->|No| SKIP[No action]
-
-    APPLY --> LOOP
-    SKIP --> LOOP
-
-    LOOP[Log/Wait 5s] --> READ
-```
 
 ![System Diagram](assets/img/system_diagram.png)
 
 ## 🔄 Flow Diagram
+
+
+```mermaid
+flowchart TD
+  START([Start]) --> INIT[Boot NodeMCU\nInit Wi-Fi, MQTT, Sensors]
+  INIT --> READ[Read sensors:\nTemp, Humidity, Light, Flame, Noise, Encoder]
+  READ --> THR{Any threshold exceeded?}
+  THR -->|Yes| ACT[Activate alerts:\nRelay ON, Buzzer ON]
+  THR -->|No| NOP[Keep current outputs]
+
+  ACT --> PUB
+  NOP --> PUB
+
+  PUB[Publish sensor & status\nMQTT -> NETPIE feeds] --> UI[Dashboard updates:\ncharts, gauges, alerts]
+
+  UI --> CMD{Incoming command?}
+  CMD -->|Yes| APPLY[Apply command to\nRelay/Buzzer]
+  CMD -->|No| SKIP[No action]
+
+  APPLY --> LOOP[Log / wait 5 s]
+  SKIP --> LOOP
+  LOOP --> READ
+```
+
 
 ![Flow diagram](assets/img/flow_diagram.png)
 
