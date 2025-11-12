@@ -27,14 +27,11 @@ flowchart TD
     C -->|"Realtime Feed"| UI["Dashboard (Web/Mobile)<br>Gauges • Graphs • Alerts"]
     UI -->|"MQTT Subscribe"| C
     C -->|"Control Commands"| newLines
-
 ```
-
 
 ![System Diagram](assets/img/system_diagram.png)
 
 ## 🔄 Flow Diagram
-
 
 ```mermaid
 flowchart TD
@@ -57,7 +54,6 @@ flowchart TD
   SKIP --> LOOP
   LOOP --> READ
 ```
-
 
 ![Flow diagram](assets/img/flow_diagram.png)
 
